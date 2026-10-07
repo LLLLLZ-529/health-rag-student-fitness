@@ -88,7 +88,7 @@ health-rag-student-fitness/
 ### Installation
 
 ```bash
-git clone https://github.com/your-org/health-rag-student-fitness.git
+git clone https://github.com/LLLLLZ-529/health-rag-student-fitness.git
 cd health-rag-student-fitness
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
