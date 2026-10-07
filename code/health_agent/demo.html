@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthAgent — 多智能体健康决策系统</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* ===== 暖棕大地色板（参考品牌色卡）=====
+     奶油米白  #F7F1E7 / #FDF9F2
+     浅米      #F2E8D8 / #F0E6D4
+     卡其      #D9C9AC / #C9B89A
+     驼色      #B08968 / #C4A484
+     咖啡棕    #8B6F4E / #7C623F
+     深棕      #5C4528 / #4A3822
+     砖红棕    #A4593B
+     =================================== */
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #F7F1E7; color: #4A3822; }
+  .node { transition: all .4s; fill: #F0E6D4; stroke: #C9B89A; stroke-width: 2; }
+  .node.active { fill: #B08968; stroke: #C9A887; filter: drop-shadow(0 0 12px rgba(176,137,104,.6)); }
+  .node.done { fill: #7C623F; stroke: #9A8059; }
+  .node.error { fill: #A4593B; stroke: #BE7A5E; }
+  .edge { stroke: #D4C4A8; stroke-width: 2; fill: none; stroke-dasharray: 6 4; }
+  .edge.flow { stroke: #B08968; stroke-width: 3; filter: drop-shadow(0 0 6px rgba(176,137,104,.6)); animation: dash .6s linear infinite; }
+  .edge.reject { stroke: #A4593B; stroke-width: 3; filter: drop-shadow(0 0 6px rgba(164,89,59,.6)); }
+  @keyframes dash { to { stroke-dashoffset: -20; } }
+  .log-line { animation: fadeIn .4s; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(6px)} to{opacity:1} }
+  .metric-card { background: linear-gradient(135deg, #FDF9F2, #F2E8D8); border: 1px solid #E0D3BB; box-shadow: 0 6px 24px rgba(139,111,78,.16); border-radius: 1.25rem; }
+  .warm-input { background: #FBF6EE; border: 1px solid #D9C9AC; border-radius: .75rem; padding: .5rem .75rem; color: #4A3822; transition: all .2s; }
+  .warm-input:focus { outline: none; border-color: #B08968; box-shadow: 0 0 0 3px rgba(176,137,104,.22); background: #FDF9F2; }
+  .warm-label { color: #A08B68; font-weight: 500; }
+  .node-text { transition: fill .4s; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+  <header class="mb-8 text-center">
+    <h1 class="text-3xl font-bold tracking-wide" style="background:linear-gradient(90deg,#8B6F4E,#B08968,#C4A484); -webkit-background-clip:text; background-clip:text; color:transparent;">
+      HealthAgent · 多智能体健康决策系统
+    </h1>
+    <p class="mt-2" style="color:#9C8B73;">LangGraph 编排 · 7 Agents · DPO 1.5B LLM · Rule-based Critic</p>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- 左：输入面板 -->
+    <div class="space-y-4">
+      <div class="metric-card rounded-xl p-5">
+        <h2 class="text-lg font-semibold mb-3" style="color:#8B6F4E;">📝 学生体测数据</h2>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <label class="block warm-label">BMI
+            <input id="bmi" type="number" step="0.1" value="20" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">肺活量(ml)
+            <input id="vc" type="number" value="2200" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">力量
+            <input id="str" type="number" value="8" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">耐力跑(秒)
+            <input id="endurance" type="number" value="320" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">50米(秒)
+            <input id="speed" type="number" value="10" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">立定跳远(cm)
+            <input id="jump" type="number" value="140" class="warm-input w-full mt-1">
+          </label>
+          <label class="block warm-label">坐位体前屈(cm)
+            <input id="flex" type="number" value="3" class="warm-input w-full mt-1">
+          </label>
+        </div>
+        <div class="mt-4">
+          <label class="block text-sm warm-label">你的问题
+            <input id="query" type="text" value="这个学生该怎么练" class="warm-input w-full mt-1">
+          </label>
+        </div>
+        <div class="flex gap-2 mt-4">
+          <button onclick="runCase('vc')" class="flex-1 rounded-xl px-4 py-2 font-medium shadow-sm text-white transition" style="background:#B08968;" onmouseover="this.style.background='#C4A484'" onmouseout="this.style.background='#B08968'">肺活量弱 (通过)</button>
+          <button onclick="runCase('str')" class="flex-1 rounded-xl px-4 py-2 font-medium shadow-sm text-white transition" style="background:#A4593B;" onmouseover="this.style.background='#BE7A5E'" onmouseout="this.style.background='#A4593B'">力量弱 (触发驳回)</button>
+        </div>
+        <button onclick="runAgent()" class="w-full mt-2 rounded-xl px-4 py-3 font-bold text-lg shadow-md text-white transition" style="background:linear-gradient(90deg,#8B6F4E,#A08B68);" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+          ▶ 启动 Agent 流程
+        </button>
+      </div>
+
+      <!-- 指标输出 -->
+      <div class="metric-card rounded-xl p-5">
+        <h2 class="text-lg font-semibold mb-3" style="color:#A4593B;">📊 实时输出</h2>
+        <div id="metrics" class="space-y-2 text-sm">
+          <p style="color:#B5A88F;">等待启动...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：流程图 -->
+    <div class="metric-card rounded-xl p-5">
+      <h2 class="text-lg font-semibold mb-3" style="color:#8B6F4E;">🔄 Agent 执行流程</h2>
+      <svg viewBox="0 0 500 640" class="w-full">
+        <!-- Router -->
+        <rect id="n_router" x="175" y="10" width="150" height="50" rx="12" class="node"/>
+        <text class="node-text" x="250" y="40" text-anchor="middle" fill="#5C4528" font-size="13" font-weight="bold">Router 路由</text>
+
+        <!-- Diagnosis -->
+        <rect id="n_diagnosis" x="30" y="110" width="160" height="50" rx="12" class="node"/>
+        <text class="node-text" x="110" y="140" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Diagnosis 诊断</text>
+
+        <!-- Prediction -->
+        <rect id="n_prediction" x="310" y="110" width="160" height="50" rx="12" class="node"/>
+        <text class="node-text" x="390" y="140" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Prediction 预测</text>
+
+        <!-- Retriever -->
+        <rect id="n_retriever" x="30" y="200" width="160" height="50" rx="12" class="node"/>
+        <text class="node-text" x="110" y="230" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Retriever 检索</text>
+
+        <!-- Strategy (M3 策略) -->
+        <rect id="n_strategy" x="30" y="290" width="160" height="50" rx="12" class="node"/>
+        <text class="node-text" x="110" y="320" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Strategy 策略</text>
+
+        <!-- Writer -->
+        <rect id="n_writer" x="30" y="380" width="160" height="50" rx="12" class="node"/>
+        <text class="node-text" x="110" y="410" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Writer 生成</text>
+
+        <!-- Critic -->
+        <rect id="n_critic" x="175" y="470" width="150" height="50" rx="12" class="node"/>
+        <text class="node-text" x="250" y="500" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Critic 审核</text>
+
+        <!-- Finalize -->
+        <rect id="n_finalize" x="175" y="560" width="150" height="50" rx="12" class="node"/>
+        <text class="node-text" x="250" y="590" text-anchor="middle" fill="#5C4528" font-size="12" font-weight="bold">Finalize 输出</text>
+
+        <!-- 边 -->
+        <path id="e_router_diag" d="M210,60 L110,110" class="edge"/>
+        <path id="e_router_pred" d="M290,60 L390,110" class="edge"/>
+        <path id="e_diag_ret" d="M110,160 L110,200" class="edge"/>
+        <path id="e_ret_strategy" d="M110,250 L110,290" class="edge"/>
+        <path id="e_strategy_wri" d="M110,340 L110,380" class="edge"/>
+        <path id="e_wri_cri" d="M110,430 L250,470" class="edge"/>
+        <path id="e_cri_fin" d="M250,520 L250,560" class="edge"/>
+        <path id="e_cri_wri" d="M175,495 L30,495 L30,405" class="edge"/>
+        <path id="e_pred_fin" d="M390,160 L390,585 L325,585" class="edge"/>
+      </svg>
+      <div class="text-xs mt-2 text-center" style="color:#9C8B73;">
+        <span class="inline-block w-4 h-1 rounded mr-1 align-middle" style="background:#B08968;"></span>正常流
+        <span class="inline-block w-4 h-1 rounded ml-4 mr-1 align-middle" style="background:#A4593B;"></span>驳回回流
+      </div>
+    </div>
+  </div>
+
+  <!-- 最终回答 -->
+  <div id="final" class="metric-card rounded-xl p-5 mt-6 hidden">
+    <h2 class="text-lg font-semibold mb-3" style="color:#A4593B;">💡 最终建议</h2>
+    <div id="final_text" class="text-sm leading-relaxed whitespace-pre-wrap rounded-xl p-4" style="background:#FDF9F2; border:1px solid #E4D8C0;"></div>
+  </div>
+</div>
+
+<script>
+const LOG_COLORS = { green: '#6F7F4F', red: '#A4593B', blue: '#6E7E88' };
+const ALL_NODES = ['router','diagnosis','prediction','retriever','strategy','writer','critic','finalize'];
+const ALL_EDGES = ['e_router_diag','e_router_pred','e_diag_ret','e_ret_strategy','e_strategy_wri','e_wri_cri','e_cri_fin','e_cri_wri','e_pred_fin'];
+
+function setNode(name, state) {
+  const el = document.getElementById('n_'+name);
+  if (!el) return;  // 防御：未知节点不报错
+  el.classList.remove('active','done','error');
+  if (state) el.classList.add(state);
+  const txt = el.nextElementSibling;
+  if (txt && txt.tagName === 'text') {
+    txt.style.fill = (state === 'active' || state === 'done' || state === 'error') ? '#FFFFFF' : '#5C4528';
+  }
+}
+function setEdge(id, state) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('flow','reject');
+  if (state) el.classList.add(state);
+}
+function addLog(text, color='#4A3822') {
+  const m = document.getElementById('metrics');
+  if (m.querySelector('p')) m.innerHTML = '';
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  div.style.color = color;
+  div.textContent = text;
+  m.appendChild(div);
+}
+
+function runCase(type) {
+  if (type === 'vc') {
+    document.getElementById('bmi').value=20; document.getElementById('vc').value=2200;
+    document.getElementById('str').value=8; document.getElementById('endurance').value=320;
+    document.getElementById('speed').value=10; document.getElementById('jump').value=140;
+    document.getElementById('flex').value=3;
+    document.getElementById('query').value='这个学生肺活量差，呼吸不好，怎么练？';
+  } else {
+    document.getElementById('bmi').value=22; document.getElementById('vc').value=4200;
+    document.getElementById('str').value=3; document.getElementById('endurance').value=250;
+    document.getElementById('speed').value=8.5; document.getElementById('jump').value=180;
+    document.getElementById('flex').value=12;
+    document.getElementById('query').value='这个学生怎么练力量';
+  }
+}
+
+async function runAgent() {
+  document.getElementById('metrics').innerHTML = '<p style="color:#B5A88F;">连接后端...</p>';
+  document.getElementById('final').classList.add('hidden');
+  ALL_NODES.forEach(n=>setNode(n,null));
+  ALL_EDGES.forEach(e=>setEdge(e,null));
+
+  const body = {
+    bmi: +document.getElementById('bmi').value,
+    vc: +document.getElementById('vc').value,
+    str: +document.getElementById('str').value,
+    endurance: +document.getElementById('endurance').value,
+    speed: +document.getElementById('speed').value,
+    jump: +document.getElementById('jump').value,
+    flex: +document.getElementById('flex').value,
+    query: document.getElementById('query').value,
+  };
+
+  try {
+    const resp = await fetch('/run', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, {stream: true});
+
+      const events = buffer.split('\n\n');
+      buffer = events.pop();
+      for (const evt of events) {
+        const lines = evt.split('\n');
+        let eventName = 'message', dataStr = '';
+        for (const line of lines) {
+          if (line.startsWith('event: ')) eventName = line.slice(7);
+          if (line.startsWith('data: ')) dataStr = line.slice(6);
+        }
+        if (!dataStr) continue;
+        let data;
+        try { data = JSON.parse(dataStr); } catch { continue; }
+
+        if (eventName === 'node_start') {
+          setNode(data.node, 'active');
+          if (data.node === 'diagnosis') setEdge('e_router_diag','flow');
+          if (data.node === 'retriever') setEdge('e_diag_ret','flow');
+          if (data.node === 'strategy') setEdge('e_ret_strategy','flow');
+          if (data.node === 'writer') setEdge('e_strategy_wri','flow');
+          if (data.node === 'critic') setEdge('e_wri_cri','flow');
+          if (data.node === 'finalize') setEdge('e_cri_fin','flow');
+        }
+        else if (eventName === 'log') {
+          addLog(data.msg, data.color ? LOG_COLORS[data.color] || '#4A3822' : '#4A3822');
+        }
+        else if (eventName === 'reject') {
+          setEdge('e_cri_wri','reject');
+        }
+        else if (eventName === 'node_done') {
+          if (data.node === 'critic' && !data.output?.critic_pass) {
+            setNode('critic','error');
+            setTimeout(()=>setEdge('e_cri_wri', null), 800);
+          } else {
+            setNode(data.node, 'done');
+          }
+        }
+        else if (eventName === 'final') {
+          setNode('finalize','done');
+          document.getElementById('final_text').textContent = data.text;
+          document.getElementById('final').classList.remove('hidden');
+        }
+        else if (eventName === 'error') {
+          addLog('后端错误: ' + data.msg, '#A4593B');
+        }
+      }
+    }
+  } catch (e) {
+    addLog('无法连接后端: ' + e.message + '（请先运行 python server.py）', '#A4593B');
+  }
+}
+</script>
+</body>
+</html>

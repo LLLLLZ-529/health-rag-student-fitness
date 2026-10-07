@@ -1,0 +1,25 @@
+{
+  "model": "TabM",
+  "status": "complete",
+  "device": "mps",
+  "train": 25241,
+  "val": 5409,
+  "test": 5409,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "summary": {
+    "method": "TabM",
+    "name": "TabM",
+    "accuracy": 0.8591853084365564,
+    "accuracy_sd": 0.0007133688853632861,
+    "macro_f1": 0.8099687671331791,
+    "macro_f1_sd": 0.005875903283672196
+  },
+  "features": "57-D standard (28 z-score + 28 validity mask + 1 gender)",
+  "optimizer": "AdamW+cosine (lr=2e-3, wd=3e-4)",
+  "architecture": "TabM k=32, 3 blocks, d_block=256, dropout=0.2, BatchEnsemble",
+  "class_weights": "sqrt-inverse frequency"
+}

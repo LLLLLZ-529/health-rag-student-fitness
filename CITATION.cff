@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Student Physical Health RAG: Benchmark, Early Warning, and RAG-Bandit Recommendation"
+abstract: >-
+  A three-module system for student physical health: (1) benchmark of 16
+  modern tabular models on a 9-class health-state labeling scheme (HI9),
+  (2) cross-grade early degradation warning, and (3) RAG retrieval +
+  contextual-bandit personalized intervention recommendation over a health
+  knowledge base. Includes a LangGraph multi-agent demo (HealthAgent) with
+  SFT/DPO-fine-tuned Qwen2.5-1.5B.
+authors:
+  - name: "Project Contributors"
+license: MIT
+repository-code: "https://github.com/your-org/health-rag-student-fitness"
+keywords:
+  - "health RAG"
+  - "student fitness"
+  - "tabular models"
+  - "early warning"
+  - "contextual bandit"
+  - "LangGraph"
+  - "SFT"
+  - "DPO"

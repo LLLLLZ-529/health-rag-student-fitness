@@ -1,0 +1,30 @@
+{
+  "experiment": "cross_grade_g1g2g3_to_g4",
+  "model": "MLP (256-256)",
+  "train_features": "g1-g3 raw (21-D) + gender",
+  "test_label": "g4 rule_class (9-class)",
+  "n_train_candidates": 29954,
+  "n_test": 16104,
+  "accuracy_mean": 0.547,
+  "accuracy_sd": 0.0081,
+  "macro_f1_mean": 0.5056,
+  "macro_f1_sd": 0.017,
+  "per_seed": [
+    {
+      "seed": 42,
+      "accuracy": 0.5469,
+      "macro_f1": 0.5123
+    },
+    {
+      "seed": 43,
+      "accuracy": 0.5569,
+      "macro_f1": 0.5223
+    },
+    {
+      "seed": 44,
+      "accuracy": 0.5371,
+      "macro_f1": 0.4823
+    }
+  ],
+  "note": "对比随机split MLP acc~0.85, 跨年级泛化预期下降"
+}

@@ -1,0 +1,13 @@
+feature_set,feature_name,in_dim,seed,accuracy,macro_f1,seconds
+flat,A. Raw flat (28+1=29D),29,42,0.842,0.761,10.9
+flat,A. Raw flat (28+1=29D),29,43,0.8585,0.7402,10.2
+flat,A. Raw flat (28+1=29D),29,44,0.8548,0.7283,10.3
+flat_delta,B. Flat + Δ (28+21+1=50D),50,42,0.844,0.749,10.3
+flat_delta,B. Flat + Δ (28+21+1=50D),50,43,0.837,0.7195,10.3
+flat_delta,B. Flat + Δ (28+21+1=50D),50,44,0.8424,0.762,10.2
+flat_delta_slope,C. Flat + Δ + slope (28+21+7+1=57D),57,42,0.8552,0.7744,10.3
+flat_delta_slope,C. Flat + Δ + slope (28+21+7+1=57D),57,43,0.8407,0.7207,10.3
+flat_delta_slope,C. Flat + Δ + slope (28+21+7+1=57D),57,44,0.8511,0.7359,10.2
+full,D. Full: Flat + Δ + slope + accel (28+21+7+14+1=71D),71,42,0.8568,0.7375,10.3
+full,D. Full: Flat + Δ + slope + accel (28+21+7+14+1=71D),71,43,0.8477,0.7292,10.3
+full,D. Full: Flat + Δ + slope + accel (28+21+7+14+1=71D),71,44,0.844,0.769,10.3

@@ -1,0 +1,9 @@
+model,params_M,latency_ms,note
+ModernNCA,0.116,0.173,
+TabM (32 members),0.048,3.621,
+MLP (256-256),0.084,0.162,
+TabPFN_v2,100.0,,预训练基础模型，in-context learning
+TabPFN-2.5,100.0,,预训练基础模型
+TabICLv2,100.0,,预训练基础模型
+LightGBM,,0.366,
+RandomForest,,15.041,

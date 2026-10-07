@@ -1,0 +1,16 @@
+experiment,seed,n_features,accuracy,macro_f1,seconds,avg_precision
+upper_bound_57d_full,42,57,0.8427,0.7228,0.0,
+upper_bound_57d_full,43,57,0.8333,0.7077,0.0,
+upper_bound_57d_full,44,57,0.8423,0.7216,0.0,
+cross_grade_g1g3_9class,42,22,0.535,0.4131,10.6,
+cross_grade_g1g3_9class,43,22,0.5308,0.4303,10.0,
+cross_grade_g1g3_9class,44,22,0.5312,0.4204,10.1,
+cross_grade_g1g3_trend_9class,42,43,0.537,0.4511,10.0,
+cross_grade_g1g3_trend_9class,43,43,0.5333,0.4325,9.9,
+cross_grade_g1g3_trend_9class,44,43,0.5333,0.4789,9.9,
+cross_grade_g1g3_decline_binary,42,22,0.8337,0.7109,10.3,0.543
+cross_grade_g1g3_decline_binary,43,22,0.8324,0.7101,23.9,0.5476
+cross_grade_g1g3_decline_binary,44,22,0.8254,0.7042,54.6,0.5577
+cross_grade_g1g3_trend_decline_binary,42,43,0.8395,0.7184,14.7,0.5465
+cross_grade_g1g3_trend_decline_binary,43,43,0.8403,0.736,42.0,0.5792
+cross_grade_g1g3_trend_decline_binary,44,43,0.8308,0.7266,26.8,0.5823

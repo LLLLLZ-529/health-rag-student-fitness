@@ -1,0 +1,4 @@
+feature_set,dim,accuracy,accuracy_sd,macro_f1,macro_f1_sd
+7d_raw,7,0.4936,0.0004,0.3582,0.0089
+14d_raw_slope,14,0.8183,0.0012,0.7645,0.0035
+57d_hi_pipeline,57,0.8524,0.0014,0.8074,0.0098

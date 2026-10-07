@@ -1,0 +1,13 @@
+{
+  "n_chunks": 2674,
+  "n_categories": 4,
+  "n_case_studies": 9,
+  "n_retrievals": 45,
+  "strategies": [
+    "运动干预为主",
+    "膳食干预为主",
+    "运动+膳食综合",
+    "维持现状+监测"
+  ],
+  "convergence_rate": 0.8888888888888888
+}

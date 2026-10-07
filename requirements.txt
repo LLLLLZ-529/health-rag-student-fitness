@@ -1,0 +1,29 @@
+# Core scientific computing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Deep learning
+torch>=2.0.0
+
+# LLM fine-tuning & inference
+transformers>=4.35.0
+peft>=0.7.0
+accelerate>=0.24.0
+
+# Gradient boosting baselines
+xgboost>=2.0.0
+lightgbm>=4.0.0
+
+# Tabular foundation models (optional, for M1 benchmark)
+tabpfn>=2.0.0
+
+# Web demo (HealthAgent)
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# Agent framework
+langgraph>=0.1.0
+
+# Text retrieval (TF-IDF) — included in scikit-learn
+# (no additional dependency needed)

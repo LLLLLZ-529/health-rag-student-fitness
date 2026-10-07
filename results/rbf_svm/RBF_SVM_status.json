@@ -1,0 +1,26 @@
+{
+  "model": "RBF_SVM",
+  "n_seeds": 3,
+  "accuracy_mean": 0.7857,
+  "accuracy_sd": 0.0,
+  "macro_f1_mean": 0.7183,
+  "macro_f1_sd": 0.0,
+  "per_seed": [
+    {
+      "seed": 42,
+      "accuracy": 0.7857,
+      "macro_f1": 0.7183
+    },
+    {
+      "seed": 43,
+      "accuracy": 0.7857,
+      "macro_f1": 0.7183
+    },
+    {
+      "seed": 44,
+      "accuracy": 0.7857,
+      "macro_f1": 0.7183
+    }
+  ],
+  "features": "57-D (28 z-score + 28 mask + gender)"
+}

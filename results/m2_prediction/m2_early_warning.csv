@@ -1,0 +1,2 @@
+experiment,n_samples,decline_rate,accuracy,macro_f1,average_precision
+g1+g2 → g4 (binary: decline vs non-decline),16898,0.2551,0.7971,0.5917,0.3406

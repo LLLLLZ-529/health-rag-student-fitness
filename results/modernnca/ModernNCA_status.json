@@ -1,0 +1,26 @@
+{
+  "model": "ModernNCA",
+  "status": "complete",
+  "device": "mps",
+  "train": 25241,
+  "val": 5409,
+  "test": 5409,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "summary": {
+    "method": "ModernNCA",
+    "name": "ModernNCA",
+    "accuracy": 0.8545017563320392,
+    "accuracy_sd": 0.0021133207862799605,
+    "macro_f1": 0.8093506020038298,
+    "macro_f1_sd": 0.0033168760718034073
+  },
+  "version": "v2",
+  "features": "57-D standard (28 z-score + 28 validity mask + 1 gender)",
+  "optimizer": "AdamW+cosine",
+  "architecture": "MLP(57→256→256→128) → CE + NCA(L2-norm embed, stochastic sampling)",
+  "class_weights": "sqrt-inverse frequency"
+}

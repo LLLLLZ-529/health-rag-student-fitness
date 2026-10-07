@@ -1,0 +1,247 @@
+[
+  {
+    "case": 1,
+    "init_hi": 0.0375,
+    "final_hi": 0.3148,
+    "hi_change": 0.2773,
+    "weakest": "endurance_run_sec",
+    "rounds": [
+      {
+        "round": 1,
+        "action": "运动干预为主",
+        "reward": 0.3812,
+        "delta_hi": 0.0552,
+        "hi": 0.0927,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 2,
+        "action": "运动+膳食综合",
+        "reward": 0.3979,
+        "delta_hi": 0.0505,
+        "hi": 0.1433,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 3,
+        "action": "运动干预为主",
+        "reward": 0.423,
+        "delta_hi": 0.061,
+        "hi": 0.2043,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 4,
+        "action": "运动+膳食综合",
+        "reward": 0.32,
+        "delta_hi": 0.0522,
+        "hi": 0.2565,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 5,
+        "action": "运动干预为主",
+        "reward": 0.3417,
+        "delta_hi": 0.0583,
+        "hi": 0.3148,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      }
+    ]
+  },
+  {
+    "case": 2,
+    "init_hi": -0.0862,
+    "final_hi": 0.2484,
+    "hi_change": 0.3346,
+    "weakest": "vital_capacity",
+    "rounds": [
+      {
+        "round": 1,
+        "action": "运动干预为主",
+        "reward": 0.6268,
+        "delta_hi": 0.0783,
+        "hi": -0.0079,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 2,
+        "action": "运动+膳食综合",
+        "reward": 0.4838,
+        "delta_hi": 0.0608,
+        "hi": 0.0529,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 3,
+        "action": "运动干预为主",
+        "reward": 0.5982,
+        "delta_hi": 0.0746,
+        "hi": 0.1275,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 4,
+        "action": "运动+膳食综合",
+        "reward": 0.4011,
+        "delta_hi": 0.0518,
+        "hi": 0.1793,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 5,
+        "action": "运动干预为主",
+        "reward": 0.5391,
+        "delta_hi": 0.0691,
+        "hi": 0.2484,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      }
+    ]
+  },
+  {
+    "case": 3,
+    "init_hi": -0.4965,
+    "final_hi": -0.0932,
+    "hi_change": 0.4034,
+    "weakest": "sit_and_reach",
+    "rounds": [
+      {
+        "round": 1,
+        "action": "运动干预为主",
+        "reward": 0.5414,
+        "delta_hi": 0.0924,
+        "hi": -0.4042,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 2,
+        "action": "运动+膳食综合",
+        "reward": 0.4746,
+        "delta_hi": 0.0759,
+        "hi": -0.3283,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 3,
+        "action": "运动干预为主",
+        "reward": 0.5024,
+        "delta_hi": 0.0845,
+        "hi": -0.2438,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 4,
+        "action": "运动+膳食综合",
+        "reward": 0.4285,
+        "delta_hi": 0.0694,
+        "hi": -0.1744,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 5,
+        "action": "运动干预为主",
+        "reward": 0.4772,
+        "delta_hi": 0.0812,
+        "hi": -0.0932,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      }
+    ]
+  },
+  {
+    "case": 4,
+    "init_hi": -0.6969,
+    "final_hi": -0.3255,
+    "hi_change": 0.3714,
+    "weakest": "sprint_50m",
+    "rounds": [
+      {
+        "round": 1,
+        "action": "运动干预为主",
+        "reward": 0.627,
+        "delta_hi": 0.0841,
+        "hi": -0.6128,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 2,
+        "action": "运动+膳食综合",
+        "reward": 0.4514,
+        "delta_hi": 0.0591,
+        "hi": -0.5537,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 3,
+        "action": "运动干预为主",
+        "reward": 0.6072,
+        "delta_hi": 0.0796,
+        "hi": -0.4741,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 4,
+        "action": "运动+膳食综合",
+        "reward": 0.4851,
+        "delta_hi": 0.0685,
+        "hi": -0.4056,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 5,
+        "action": "运动干预为主",
+        "reward": 0.5916,
+        "delta_hi": 0.0801,
+        "hi": -0.3255,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      }
+    ]
+  },
+  {
+    "case": 5,
+    "init_hi": -0.0147,
+    "final_hi": 0.2858,
+    "hi_change": 0.3004,
+    "weakest": "standing_long_jump",
+    "rounds": [
+      {
+        "round": 1,
+        "action": "运动干预为主",
+        "reward": 0.5036,
+        "delta_hi": 0.0637,
+        "hi": 0.0491,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 2,
+        "action": "运动+膳食综合",
+        "reward": 0.4745,
+        "delta_hi": 0.0588,
+        "hi": 0.1079,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 3,
+        "action": "运动干预为主",
+        "reward": 0.3152,
+        "delta_hi": 0.0614,
+        "hi": 0.1693,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      },
+      {
+        "round": 4,
+        "action": "运动+膳食综合",
+        "reward": 0.3121,
+        "delta_hi": 0.0545,
+        "hi": 0.2238,
+        "rag_top": "---\nsource_file: ACSM运动测试与运动处方指南_OCR.md\nsource_title: ACSM运动测试与运动处方指南_OCR\ncatego"
+      },
+      {
+        "round": 5,
+        "action": "运动干预为主",
+        "reward": 0.3252,
+        "delta_hi": 0.062,
+        "hi": 0.2858,
+        "rag_top": "---\nsource_file: 《“健康中国2030”规划纲要》.docx\nsource_title: 《“健康中国2030”规划纲要》\ncategory: "
+      }
+    ]
+  }
+]

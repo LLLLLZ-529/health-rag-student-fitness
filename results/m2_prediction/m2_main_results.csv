@@ -1,0 +1,2 @@
+experiment,n_samples,n_features,accuracy,accuracy_sd,macro_f1,f1_sd
+g1+g2 → g4 (9-class),16898,15,0.4602,0.009,0.3325,0.0086

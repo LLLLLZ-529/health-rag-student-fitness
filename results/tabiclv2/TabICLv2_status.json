@@ -1,0 +1,36 @@
+{
+  "model": "TabICLv2",
+  "n_seeds": 3,
+  "accuracy_mean": 0.8446,
+  "accuracy_sd": 0.0039,
+  "macro_f1_mean": 0.794,
+  "macro_f1_sd": 0.0053,
+  "per_seed": [
+    {
+      "seed": 42,
+      "accuracy": 0.8488,
+      "macro_f1": 0.8005,
+      "fit_time_s": 0.5,
+      "pred_time_s": 852.1,
+      "ctx_size": 10000
+    },
+    {
+      "seed": 43,
+      "accuracy": 0.8456,
+      "macro_f1": 0.7941,
+      "fit_time_s": 0.6,
+      "pred_time_s": 563.5,
+      "ctx_size": 10000
+    },
+    {
+      "seed": 44,
+      "accuracy": 0.8393,
+      "macro_f1": 0.7874,
+      "fit_time_s": 0.9,
+      "pred_time_s": 471.1,
+      "ctx_size": 10000
+    }
+  ],
+  "n_estimators": 4,
+  "features": "57-D (28 z-score + 28 mask + gender)"
+}

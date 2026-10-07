@@ -1,0 +1,33 @@
+{
+  "model": "TabPFN-2.5",
+  "n_seeds": 3,
+  "accuracy_mean": 0.8555,
+  "accuracy_sd": 0.001,
+  "macro_f1_mean": 0.8056,
+  "macro_f1_sd": 0.0072,
+  "per_seed": [
+    {
+      "seed": 42,
+      "accuracy": 0.856,
+      "macro_f1": 0.8101,
+      "fit_time_s": 0.5,
+      "pred_time_s": 242.6
+    },
+    {
+      "seed": 43,
+      "accuracy": 0.8564,
+      "macro_f1": 0.8112,
+      "fit_time_s": 0.5,
+      "pred_time_s": 285.5
+    },
+    {
+      "seed": 44,
+      "accuracy": 0.8541,
+      "macro_f1": 0.7955,
+      "fit_time_s": 0.4,
+      "pred_time_s": 314.2
+    }
+  ],
+  "n_estimators": 8,
+  "features": "57-D (28 z-score + 28 mask + gender)"
+}
