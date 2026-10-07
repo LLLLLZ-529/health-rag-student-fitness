@@ -1,91 +1,91 @@
-# Student Physical Health RAG
+# 学生体质健康 RAG 研究系统
 
-> 16-Model Tabular Benchmark, Early Degradation Warning, and RAG–Bandit Personalized Recommendation for Student Physical Fitness
+> 16 模型表格基准 · 跨年级早期退化预警 · RAG–情境 Bandit 个性化推荐
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Paper: CHIL 2027](https://img.shields.io/badge/Paper-CHIL%202027-blue.svg)](paper/CHIL2027_paper_outline.md)
-[![Data: Aggregated Only](https://img.shields.io/badge/Data-Aggregated%20Only-green.svg)](#data)
+[![Data: Aggregated Only](https://img.shields.io/badge/Data-Aggregated%20Only-green.svg)](#数据说明)
 
-## Overview
+## 项目概述
 
-This project builds a three-module system for monitoring and intervening on student physical health using longitudinal physical-fitness test data:
+本系统基于大学生体质健康测试纵向数据，构建"分类 → 预警 → 干预推荐"三模块研究管线：
 
-| Module | Name | Task |
-|--------|------|------|
-| **M1** | Tabular Model Benchmark | 16 modern tabular models on 9-class health-state classification (HI9) |
-| **M2** | Early Degradation Warning | Cross-grade prediction of future health decline from early observations |
-| **M3** | RAG–Bandit Recommendation | TF-IDF retrieval over a health knowledge base + contextual bandit for personalized intervention selection |
+| 模块 | 名称 | 任务 |
+|------|------|------|
+| **M1** | 表格模型基准 | 16 种现代表格模型在九类健康状态分类（HI9）上的对比基准 |
+| **M2** | 早期退化预警 | 基于早期观测跨年级预测未来体质退化 |
+| **M3** | RAG–Bandit 推荐 | 基于健康知识库的 TF-IDF 检索 + 情境 Bandit 个性化干预选择 |
 
-Additionally, **HealthAgent** is a LangGraph-based multi-agent demo that wraps the pipeline with an SFT/DPO-fine-tuned Qwen2.5-7B-Instruct language model, providing an interactive web interface for health assessment and exercise recommendation.
+此外，**HealthAgent** 是基于 LangGraph 的多智能体演示系统，以 SFT/DPO 微调的 Qwen2.5-7B-Instruct 为核心，提供健康评估与运动处方的交互式网页界面。
 
-## Key Results
+## 核心结果
 
-### M1 — 16-Model Benchmark (HI9 Classification)
+### M1 — 16 模型基准（HI9 分类）
 
-| Model Family | Best Model | Accuracy | Macro-F1 |
-|-------------|-----------|----------|----------|
-| Tabular foundation / pretrained | TabM | 0.859 | — |
+| 模型族 | 最佳模型 | Accuracy | Macro-F1 |
+|--------|---------|----------|----------|
+| 表格基础模型 / 预训练 | TabM | 0.859 | — |
 | | TabPFN-2.5 | 0.856 | — |
 | | ModernNCA | 0.855 | — |
-| Contrastive | SupCon | 0.845 | 0.803 |
-| Classical | RandomForest | 0.630 | — |
+| 对比学习 | SupCon | 0.845 | 0.803 |
+| 经典模型 | RandomForest | 0.630 | — |
 
-**Key finding:** Trend/slope features dominate performance — 7-D raw ≈ 49% → 14-D raw+slope ≈ 82% → 57-D HI pipeline ≈ 85%. Explicit temporal models (GRU/LSTM/CNN) add no gain on 4–8 point sequences.
+**关键发现：** 趋势/斜率特征主导性能——7 维原始特征 ≈ 49% → 14 维原始+斜率 ≈ 82% → 57 维 HI 管线 ≈ 85%。显式时序模型（GRU/LSTM/CNN）在 4–8 点序列上无额外收益。
 
-### M2 — Early Degradation Warning
+### M2 — 早期退化预警
 
-| Task | Accuracy | Notes |
-|------|----------|-------|
-| Binary decline (in-sample) | ~82% | Feasible |
-| Binary decline (cross-grade) | ~84% | No leakage split |
-| 9-class fine-grained (cross-grade) | ~53% | Hard |
-| Horizon ablation: g1→g4 | ~44% | |
-| Horizon ablation: g12→g4 | ~46% | |
-| Horizon ablation: g123→g4 | ~54% | Monotonic improvement |
+| 任务 | Accuracy | 备注 |
+|------|----------|------|
+| 二元退化（样本内） | ~82% | 可行 |
+| 二元退化（跨年级） | ~84% | 无泄漏划分 |
+| 九类细粒度（跨年级） | ~53% | 困难 |
+| 观测窗口消融：g1→g4 | ~44% | |
+| 观测窗口消融：g12→g4 | ~46% | |
+| 观测窗口消融：g123→g4 | ~54% | 单调提升 |
 
-### M3 — RAG–Bandit Recommendation
+### M3 — RAG–Bandit 推荐
 
-- Knowledge base: 2,674 chunks (exercise prescription, diet/nutrition, fitness standards, health policy)
-- 4 intervention strategies: exercise / diet / combined / maintain
-- **8/9 student groups converge**; the small high-level-declining stratum (93 students, 0.3%) does not
-- Agentic RL variant achieves cumulative reward 2.12 (vs. 1.35 rule-based, 1.27 random)
+- 知识库：2,674 块（运动处方、膳食营养、体测标准、健康政策）
+- 4 种干预策略：运动 / 膳食 / 综合 / 维持
+- **8/9 学生群体收敛**；高退化小群体（93 人，0.3%）不收敛
+- Agentic RL 变体累积奖励 2.12（对比规则基线 1.35、随机 1.27）
 
-## Repository Structure
+## 仓库结构
 
 ```
 health-rag-student-fitness/
-├── README.md                  # This file
-├── LICENSE                    # MIT (code) / CC BY-NC (paper)
-├── CITATION.cff               # Citation metadata
-├── requirements.txt           # Python dependencies
+├── README.md                  # 本文件
+├── LICENSE                    # MIT（代码）/ CC BY-NC（论文）
+├── CITATION.cff               # 引用元数据
+├── requirements.txt           # Python 依赖
 ├── .gitignore
-├── code/                      # All experiment scripts + HealthAgent app
-│   ├── 01_*.py – 30_*.py     # Numbered experiment pipeline
-│   ├── health_agent/          # LangGraph multi-agent demo (Flask + HTML)
-│   ├── m3_agentic_rl/        # Agentic RL module for M3
-│   └── run_with_retry.bat    # Windows training helper
-├── paper/                     # Paper outline, audit reports, expert evaluation
+├── code/                      # 全部实验脚本 + HealthAgent 应用
+│   ├── 01_*.py – 30_*.py     # 编号实验管线
+│   ├── health_agent/          # LangGraph 多智能体 Demo（Flask + HTML）
+│   ├── m3_agentic_rl/         # M3 Agentic RL 模块
+│   └── run_with_retry.bat    # Windows 训练辅助脚本
+├── paper/                     # 论文大纲、审计报告、专家评估
 │   ├── CHIL2027_paper_outline.md
 │   ├── HI九类_代码审计与实验报告.md
 │   ├── HI九类_10方法审计与重跑报告.md
-│   ├── working_notes/         # Internal methodological discussions
+│   ├── working_notes/         # 内部方法学讨论
 │   └── HI12_supervised_profiling/
-├── results/                   # Aggregated experiment results (no student-level data)
-│   ├── hi_vs_ml/              # M1 model comparison
-│   ├── m2_warning/            # M2 early warning results
-│   ├── m3_bandit/             # M3 bandit comparison
-│   ├── m3_agentic_rl/         # M3 agentic RL results
+├── results/                   # 聚合实验结果（无学生级数据）
+│   ├── hi_vs_ml/              # M1 模型对比
+│   ├── m2_warning/            # M2 早期预警结果
+│   ├── m3_bandit/             # M3 Bandit 对比
+│   ├── m3_agentic_rl/         # M3 Agentic RL 结果
 │   └── ...
-├── knowledge_base/            # Public-source health knowledge chunks (~453)
-│   ├── chunks/                # Categorized markdown chunks + INDEX.json
-│   └── README.md              # Source documentation
-├── scripts/                   # Utility scripts (chunk builder, ModelScope upload)
-└── assets/                    # Figures and diagrams
+├── knowledge_base/            # 公开来源健康知识库（453 块）
+│   ├── chunks/                # 分类 Markdown 块 + INDEX.json
+│   └── README.md              # 来源文档说明
+├── scripts/                   # 工具脚本（chunk 构建、ModelScope 上传）
+└── assets/                    # 图表
 ```
 
-## Quick Start
+## 快速开始
 
-### Installation
+### 安装
 
 ```bash
 git clone https://github.com/LLLLLZ-529/health-rag-student-fitness.git
@@ -95,17 +95,17 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Running the HealthAgent Demo
+### 运行 HealthAgent Demo
 
 ```bash
-# Download model weights from ModelScope (see Model Weights section)
-# Then:
+# 先从 ModelScope 下载模型权重（见"模型权重"一节）
+# 然后：
 cd code/health_agent
 python server.py
-# Open http://localhost:5000 in your browser
+# 浏览器打开 http://localhost:5000
 ```
 
-### CLI Usage
+### 命令行使用
 
 ```bash
 cd code/health_agent
@@ -115,72 +115,72 @@ python run.py \
   --speed 9.0 --jump 170 --flex 10
 ```
 
-## Data
+## 数据说明
 
-> **Important:** This repository contains **only aggregated statistics**. Raw student-level health data (including `student_id`, gender, ethnicity, and individual test measurements) is **not included** due to privacy concerns for minor students.
+> **重要：** 本仓库**仅包含聚合统计**。原始学生级健康数据（含 `student_id`、性别、民族、个人体测明细）因涉及未成年学生隐私**不予公开**。
 
-The original dataset comprises **36,059 undergraduate students** with 4 years of physical-fitness test data (BMI, vital capacity, 50m sprint, standing long jump, sit-and-reach, endurance run, strength), across 7 test items per year.
+原始数据集为 **36,059 名本科生**连续 4 年体质健康测试数据（BMI、肺活量、50m 跑、立定跳远、坐位体前屈、耐力跑、力量，每年 7 项）。
 
-To reproduce experiments with your own data:
-1. Prepare a wide-format CSV with columns matching the expected schema (see `code/01_hi_vs_ml.py` for reference)
-2. Set the data path in the experiment scripts via command-line arguments or environment variables
-3. The HI (Health Index) computation and HI9 label construction are implemented in the experiment scripts
+如需用自己的数据复现实验：
+1. 按 `code/01_hi_vs_ml.py` 中的字段说明准备宽表 CSV
+2. 通过命令行参数或环境变量指定数据路径
+3. HI（健康指数）计算与 HI9 标签构建均实现在实验脚本中
 
-## Model Weights
+## 模型权重
 
-LoRA adapter weights (SFT and DPO fine-tuned on Qwen2.5-7B-Instruct) are hosted on **ModelScope**:
+LoRA 适配器权重（基于 Qwen2.5-7B-Instruct 的 SFT 与 DPO 微调）托管在 **ModelScope**：
 
-- **SFT adapter:** `models/sft_best_model/` (~165 MB)
-- **DPO adapter:** `models/dpo_model/` (~165 MB)
+- **SFT 适配器：** `models/sft_best_model/`（约 165 MB）
+- **DPO 适配器：** `models/dpo_model/`（约 165 MB）
 
-Download and place them under `models/` in the project root:
+下载并放入项目根目录 `models/`：
 
 ```bash
-# Install ModelScope CLI
+# 安装 ModelScope CLI
 pip install modelscope
 
-# Download SFT adapter
+# 下载 SFT 适配器
 modelscope download --model anne118/health-rag-sft-7b --local_dir models/sft_best_model
 
-# Download DPO adapter
+# 下载 DPO 适配器
 modelscope download --model anne118/health-rag-dpo-7b --local_dir models/dpo_model
 ```
 
-The base model (Qwen2.5-7B-Instruct) will be automatically downloaded from ModelScope on first run.
+基础模型（Qwen2.5-7B-Instruct）首次运行时将自动从 ModelScope 下载。
 
-## Knowledge Base
+## 知识库
 
-The repository includes **453 chunks** from public government and WHO publications:
+本仓库包含来自公开政府与 WHO 出版物的 **453 块**知识：
 
-| Category | Sources | Count |
-|----------|---------|-------|
-| 体测标准 (Fitness Standards) | 国民体质测定标准手册, 大学生国家体质健康测试评分标准 | 16 |
-| 健康政策 (Health Policy) | "健康中国2030"规划纲要 | 35 |
-| 膳食营养 (Diet & Nutrition) | 成人肥胖食养指南(2024), 中国居民平衡膳食宝塔, 主要食物营养成分表 | 142 |
-| 运动处方 (Exercise Prescription) | WHO身体活动指南(3部), 全民健身指南(国家体育总局), 全年龄段科学健身指南, 慢性疾病运动风险防控指南(征求意见稿), BROG量表 | 260 |
+| 类别 | 来源 | 数量 |
+|------|------|------|
+| 体测标准 | 国民体质测定标准手册、大学生国家体质健康测试评分标准 | 16 |
+| 健康政策 | "健康中国2030"规划纲要 | 35 |
+| 膳食营养 | 成人肥胖食养指南(2024)、中国居民平衡膳食宝塔、主要食物营养成分表 | 142 |
+| 运动处方 | WHO身体活动指南(3部)、全民健身指南(国家体育总局)、全年龄段科学健身指南、慢性疾病运动风险防控指南(征求意见稿)、BROG量表 | 260 |
 
-The full 2,674-chunk knowledge base (including copyrighted books from Z-Library and ACSM) is **not included** in this repository. See `knowledge_base/README.md` for details on rebuilding the full knowledge base.
+完整 2,674 块知识库（含 Z-Library 盗版书与 ACSM 版权教材）**不在本仓库**。重建完整知识库的方法见 `knowledge_base/README.md`。
 
-## Reproducing Experiments
+## 复现实验
 
-Experiments are numbered sequentially in `code/`:
+`code/` 中实验按编号顺序执行：
 
-| Stage | Scripts | Description |
-|-------|---------|-------------|
-| Data & SFT dataset | `01_build_instruction_dataset.py`, `01b_augment_instruction_dataset.py` | Build instruction tuning dataset |
-| SFT training | `02_run_sft.py`, `02_run_sft_1.5b.py`, `02_run_sft_7b.py` | Supervised fine-tuning with LoRA |
-| DPO dataset & training | `03_build_dpo_dataset.py`, `03b_`, `03c_`, `04_run_dpo*.py` | DPO preference alignment |
-| M1 benchmark | `01_hi_vs_ml.py`, `05_run_tabm.py`, `06_raw_vs_hi_features.py`, `08_run_tabpfn25.py`, `10_run_tabiclv2.py`, `11_model_efficiency.py` | 16-model comparison |
-| M2 early warning | `07_m2_early_prediction.py`, `09_cross_grade_generalization.py`, `12_temporal_model_comparison.py`, `13-14_m2_decline*.py`, `15_mtg_kill_test.py`, `16_cross_grade_v2.py`, `20-26_m2_warning*.py`, `30_m2_ablation.py` | Early degradation prediction |
-| M3 RAG & bandit | `19_m3_rag_recommendation.py`, `21_m3_bandit_comparison.py`, `23_m3_neural_bandit_comparison.py`, `24_m3_rag_bandit_pipeline.py`, `27_m3_agentic_rl.py` | Recommendation pipeline |
-| Evaluation | `05_evaluate_models.py`, `05_evaluate_models_1.5b.py` | Model generation quality evaluation |
-| Funnel analysis | `28_funnel_m1_to_m2.py`, `29_funnel_m2_to_m3.py` | End-to-end pipeline analysis |
+| 阶段 | 脚本 | 说明 |
+|------|------|------|
+| 数据与 SFT 数据集 | `01_build_instruction_dataset.py`, `01b_augment_instruction_dataset.py` | 构建指令微调数据集 |
+| SFT 训练 | `02_run_sft.py`, `02_run_sft_1.5b.py`, `02_run_sft_7b.py` | LoRA 监督微调 |
+| DPO 数据集与训练 | `03_build_dpo_dataset.py`, `03b_`, `03c_`, `04_run_dpo*.py` | DPO 偏好对齐 |
+| M1 基准 | `01_hi_vs_ml.py`, `05_run_tabm.py`, `06_raw_vs_hi_features.py`, `08_run_tabpfn25.py`, `10_run_tabiclv2.py`, `11_model_efficiency.py` | 16 模型对比 |
+| M2 早期预警 | `07_m2_early_prediction.py`, `09_cross_grade_generalization.py`, `12_temporal_model_comparison.py`, `13-14_m2_decline*.py`, `15_mtg_kill_test.py`, `16_cross_grade_v2.py`, `20-26_m2_warning*.py`, `30_m2_ablation.py` | 早期退化预测 |
+| M3 RAG 与 Bandit | `19_m3_rag_recommendation.py`, `21_m3_bandit_comparison.py`, `23_m3_neural_bandit_comparison.py`, `24_m3_rag_bandit_pipeline.py`, `27_m3_agentic_rl.py` | 推荐管线 |
+| 评估 | `05_evaluate_models.py`, `05_evaluate_models_1.5b.py` | 模型生成质量评估 |
+| 漏斗分析 | `28_funnel_m1_to_m2.py`, `29_funnel_m2_to_m3.py` | 端到端管线分析 |
 
-See `code/README.md` for a detailed mapping of each script to its corresponding paper table/figure.
+每个脚本与论文图表的具体对应关系见 `code/README.md`。
 
-## Citation
+## 引用
 
-If you use this code or results in your research, please cite:
+如使用本仓库代码或结果，请引用：
 
 ```bibtex
 @misc{healthrag2026,
@@ -191,12 +191,12 @@ If you use this code or results in your research, please cite:
 }
 ```
 
-## License
+## 许可证
 
-- **Code:** MIT License
-- **Paper & documentation (`paper/`):** CC BY-NC 4.0
-- **Knowledge base chunks:** Original public government / WHO publications — refer to each source for license terms
+- **代码：** MIT License
+- **论文与文档（`paper/`）：** CC BY-NC 4.0
+- **知识库：** 原始公开政府 / WHO 出版物——各来源的许可条款以原文为准
 
-## Acknowledgments
+## 致谢
 
-This work was supported by the student physical-fitness testing data from a partner university. We thank the sports medicine and physical education experts who provided blind evaluation of the HI trend threshold calibration.
+感谢合作高校提供的学生体质健康测试数据，以及为 HI 趋势阈值校准提供盲评的体育医学与体育教育专家。
