@@ -3,7 +3,7 @@
 > 16 模型表格基准 · 跨年级早期退化预警 · RAG–情境 Bandit 个性化推荐
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Paper: CHIL 2027](https://img.shields.io/badge/Paper-CHIL%202027-blue.svg)](paper/CHIL2027_paper_outline.md)
+[![Paper: Submitted to CHIL 2027](https://img.shields.io/badge/Paper-CHIL%202027-brightgreen.svg)](#引用)
 [![Data: Aggregated Only](https://img.shields.io/badge/Data-Aggregated%20Only-green.svg)](#数据说明)
 
 ## 项目概述
@@ -64,12 +64,6 @@ health-rag-student-fitness/
 │   ├── health_agent/          # LangGraph 多智能体 Demo（Flask + HTML）
 │   ├── m3_agentic_rl/         # M3 Agentic RL 模块
 │   └── run_with_retry.bat    # Windows 训练辅助脚本
-├── paper/                     # 论文大纲、审计报告、专家评估
-│   ├── CHIL2027_paper_outline.md
-│   ├── HI九类_代码审计与实验报告.md
-│   ├── HI九类_10方法审计与重跑报告.md
-│   ├── working_notes/         # 内部方法学讨论
-│   └── HI12_supervised_profiling/
 ├── results/                   # 聚合实验结果（无学生级数据）
 │   ├── hi_vs_ml/              # M1 模型对比
 │   ├── m2_warning/            # M2 早期预警结果
@@ -194,7 +188,7 @@ modelscope download --model anne118/health-rag-dpo-7b --local_dir models/dpo_mod
 ## 许可证
 
 - **代码：** MIT License
-- **论文与文档（`paper/`）：** CC BY-NC 4.0
+- **论文材料：** 暂未公开（CHIL 2027 投稿中），发表后将另行提供
 - **知识库：** 原始公开政府 / WHO 出版物——各来源的许可条款以原文为准
 
 ## 致谢
