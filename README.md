@@ -3,7 +3,7 @@
 > 16 模型表格基准 · 跨年级早期退化预警 · RAG–情境 Bandit 个性化推荐
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Paper: Submitted to CHIL 2027](https://img.shields.io/badge/Paper-CHIL%202027-brightgreen.svg)](#引用)
+[![Paper: In preparation](https://img.shields.io/badge/Paper-In%20%20preparation-lightgrey.svg)](#引用)
 [![Data: Aggregated Only](https://img.shields.io/badge/Data-Aggregated%20Only-green.svg)](#数据说明)
 
 ## 项目概述
@@ -181,14 +181,14 @@ modelscope download --model anne118/health-rag-dpo-7b --local_dir models/dpo_mod
   title={Beyond Decision Trees: A 16-Model Benchmark of Modern Tabular Models and an Integrated Classification–Early-Warning–Recommendation Pipeline for Student Physical Health},
   author={Project Contributors},
   year={2026},
-  note={Submitted to CHIL 2027}
+  note={Manuscript in preparation, target venue: CHIL 2027}
 }
 ```
 
 ## 许可证
 
 - **代码：** MIT License
-- **论文材料：** 暂未公开（CHIL 2027 投稿中），发表后将另行提供
+- **论文材料：** 暂未公开（撰写中），发表后将另行提供
 - **知识库：** 原始公开政府 / WHO 出版物——各来源的许可条款以原文为准
 
 ## 致谢
