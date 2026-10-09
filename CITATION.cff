@@ -7,7 +7,7 @@ abstract: >-
   (2) cross-grade early degradation warning, and (3) RAG retrieval +
   contextual-bandit personalized intervention recommendation over a health
   knowledge base. Includes a LangGraph multi-agent demo (HealthAgent) with
-  SFT/DPO-fine-tuned Qwen2.5-1.5B.
+  SFT/DPO-fine-tuned Qwen2.5-7B-Instruct.
 authors:
   - name: "Project Contributors"
 license: MIT
