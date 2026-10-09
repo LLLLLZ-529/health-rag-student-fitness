@@ -42,19 +42,15 @@ modelscope create "anne118/health-rag-dpo-7b" \
 
 echo ""
 echo "=== Uploading SFT adapter ==="
-modelscope upload \
-  --model "${NAMESPACE}/health-rag-sft-7b" \
-  --local_dir "${MODELS_DIR}/sft_best_model" \
-  --license "apache-2.0" \
-  --tags "health,fitness,RAG,LoRA,SFT,Qwen2.5-7B"
+modelscope upload "${NAMESPACE}/health-rag-sft-7b" "${MODELS_DIR}/sft_best_model" \
+  --repo-type model \
+  --commit-message "Upload SFT LoRA adapter (Qwen2.5-7B-Instruct)"
 
 echo ""
 echo "=== Uploading DPO adapter ==="
-modelscope upload \
-  --model "${NAMESPACE}/health-rag-dpo-7b" \
-  --local_dir "${MODELS_DIR}/dpo_model" \
-  --license "apache-2.0" \
-  --tags "health,fitness,RAG,LoRA,DPO,Qwen2.5-7B"
+modelscope upload "${NAMESPACE}/health-rag-dpo-7b" "${MODELS_DIR}/dpo_model" \
+  --repo-type model \
+  --commit-message "Upload DPO LoRA adapter (Qwen2.5-7B-Instruct)"
 
 echo ""
 echo "=== Done ==="
