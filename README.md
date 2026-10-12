@@ -185,7 +185,7 @@ modelscope download anne118/health-rag-dpo-7b --local_dir models/dpo_model
 
 ## 知识库
 
-本仓库包含来自公开政府与 WHO 出版物的 **453 块**知识，按四类组织：运动处方、膳食营养、体测标准、健康政策。完整清单见 `knowledge_base/chunks/INDEX.json`，来源说明见 `knowledge_base/README.md`。
+本仓库包含来自公开政府与 WHO 出版物的 **453 块**知识（完整知识库约 2600 块，因版权问题未公开），按四类组织：运动处方、膳食营养、体测标准、健康政策。完整清单见 `knowledge_base/chunks/INDEX.json`，来源说明见 `knowledge_base/README.md`。
 
 ## 引用
 
