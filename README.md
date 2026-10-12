@@ -95,8 +95,8 @@ SFT 后模型已能输出方案，但质量不稳定。用标注好的偏好对�
 | 模型 | 弱指标识别 | 处方对症 | 多样性 | 综合合规率 |
 |------|-----------|---------|--------|------------|
 | 基线 Qwen2.5-7B | 48% | 46% | 35% | 38% |
-| **SFT** | <td colspan="4">各指标相对基线提升约 **35%** |
-| **DPO** | <td colspan="4">各指标相对基线提升约 **45%** |
+| **SFT** | 各指标相对基线提升约 **35%** 
+| **DPO** | 各指标相对基线提升约 **45%** 
 
 - 基线模型的内容**安全性**较好，但面对体测数据倾向于给出"面面俱到的通用模板"，难以精准锁定薄弱指标；
 - SFT 后模型具备领域评估与方案生成能力；DPO 后方案更对症、更具体、更稳定。
@@ -117,26 +117,26 @@ SFT 后模型已能输出方案，但质量不稳定。用标注好的偏好对�
 
 实际工程中做了更细的拆分，共 8 个节点：`router（路由）→ diagnosis（诊断）→ retriever（知识检索）→ strategy（策略）→ writer（撰写）→ critic（审核）→ finalize（输出）`，并对预测类任务单独分流。
 
+
 ---
 
 ## 仓库结构
 
 ​```
 health-rag-student-fitness/
-├── README.md                  # 本文件
-
-├── LICENSE                    # MIT
-
-├── CITATION.cff               # 引用元数据
-├── requirements.txt           # Python 依赖
-├── code/                      # 全部实验脚本 + HealthAgent 应用
-│   ├── 01_*.py – 31_*.py      # 数据构建、SFT/DPO、评估、合规检查
-│   ├── health_agent/          # LangGraph 多智能体系统（Flask + 网页 Demo）
-│   └── m3_agentic_rl/         # 干预效果模拟器（规则合成环境）
-├── results/                   # 聚合实验结果（无学生级数据）
-├── knowledge_base/            # 公开来源健康知识库（453 块）
-│   └── chunks/                # 分类 Markdown 块 + INDEX.json
-└── scripts/                   # 工具脚本（ModelScope 上传等）
+├── code/                     # 实验脚本 + HealthAgent 应用
+│   ├── 01_*.py ~ 31_*.py     # 数据构建、SFT/DPO、评估、合规检查
+│   ├── health_agent/         # LangGraph 多智能体系统（Flask + 网页 Demo）
+│   └── m3_agentic_rl/        # 干预效果模拟器（规则合成环境）
+├── results/                  # 聚合实验结果（无学生级数据）
+├── knowledge_base/
+│   └── chunks/               # 453 块公开健康知识 + INDEX.json
+├── scripts/                  # 工具脚本（ModelScope 上传等）
+├── assets/                   # 图表等静态资源
+├── README.md
+├── LICENSE                   # MIT
+├── CITATION.cff              # 引用元数据
+└── requirements.txt          # Python 依赖
 ​```
 
 ## 快速开始
