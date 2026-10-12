@@ -128,7 +128,7 @@ SFT 后模型已能输出方案，但质量不稳定。用标注好的偏好对�
 
 ## 仓库结构
 
-```
+​```
 health-rag-student-fitness/
 ├── code/                     # 实验脚本 + HealthAgent 应用
 │   ├── 01_*.py ~ 31_*.py     # 数据构建、SFT/DPO、评估、合规检查
@@ -153,7 +153,7 @@ cd health-rag-student-fitness
 python -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-```
+​```
 
 运行 HealthAgent 网页 Demo（需先下载模型权重）：
 
@@ -191,14 +191,14 @@ modelscope download anne118/health-rag-dpo-7b --local_dir models/dpo_model
 
 如使用本仓库代码或结果，请引用：
 
-```bibtex
+​```bibtex
 @misc{healthrag2026,
   title={Domain-Specific Fine-Tuning of Large Language Models for Personalized Student Physical Health Intervention},
   author={Project Contributors},
   year={2026},
   note={Manuscript in preparation}
 }
-```
+​```
 
 ## 许可证
 
