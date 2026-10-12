@@ -129,7 +129,6 @@ SFT 后模型已能输出方案，但质量不稳定。用标注好的偏好对�
 ## 仓库结构
 
 ​```
-health-rag-student-fitness/
 ├── code/                     # 实验脚本 + HealthAgent 应用
 │   ├── 01_*.py ~ 31_*.py     # 数据构建、SFT/DPO、评估、合规检查
 │   ├── health_agent/         # LangGraph 多智能体系统（Flask + 网页 Demo）
