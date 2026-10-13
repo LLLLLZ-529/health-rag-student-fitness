@@ -46,6 +46,7 @@ def run():
         "flex": data.get("flex", 10),
     }
     query = data.get("query", "这个学生该怎么练")
+    force_reject = data.get("force_reject", False)
 
     def generate():
         graph = get_graph()
@@ -53,6 +54,7 @@ def run():
             "user_query": query,
             "student_data": student,
             "user_history": [],
+            "demo_force_reject": force_reject,
             "revision_count": 0,
             "critic_errors": [],
             "trace": [],
@@ -79,6 +81,16 @@ def run():
                     elif node_name == "retriever":
                         n = len(node_output.get("retrieved_docs", []))
                         yield sse("log", {"msg": f"Retriever → 检索{n}篇相关处方"})
+                    elif node_name == "strategy":
+                        gr = node_output.get("graph_reasoning", {}) or {}
+                        excluded = [r.get("action") for r in gr.get("ranked", [])
+                                    if r.get("excluded")]
+                        msg = f"Strategy → 干预策略={node_output.get('strategy')}，图推理首选={gr.get('primary')}"
+                        if excluded:
+                            msg += f"，禁忌排除={ '、'.join([x for x in excluded if x]) }"
+                        yield sse("log", {"msg": msg, "color": "blue"})
+                        yield sse("graph", {"chain": node_output.get("reasoning_chain", []),
+                                            "ranked": gr.get("ranked", [])})
                     elif node_name == "writer":
                         rev = node_output.get("revision_count", 1)
                         presc = node_output.get("draft_prescription", "")

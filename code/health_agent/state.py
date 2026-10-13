@@ -6,6 +6,7 @@ class AgentState(TypedDict, total=False):
     user_query: str               # 用户原始查询
     student_data: Dict[str, Any]  # 学生体测数据
     user_history: Optional[List[Dict[str, Any]]]  # 历年数据（预测用）
+    demo_force_reject: bool       # 演示用：首轮给通用草稿以触发 Critic 驳回
 
     # Router 输出
     task_type: str                # diagnose / predict / recommend / audit

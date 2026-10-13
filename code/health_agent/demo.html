@@ -40,7 +40,7 @@
     <h1 class="text-3xl font-bold tracking-wide" style="background:linear-gradient(90deg,#8B6F4E,#B08968,#C4A484); -webkit-background-clip:text; background-clip:text; color:transparent;">
       HealthAgent · 多智能体健康决策系统
     </h1>
-    <p class="mt-2" style="color:#9C8B73;">LangGraph 编排 · 7 Agents · DPO 1.5B LLM · Rule-based Critic</p>
+    <p class="mt-2" style="color:#9C8B73;">LangGraph 编排 · 8 节点 · Qwen2.5-7B（SFT+DPO）· GraphRAG 图推理 · 规则审核（无GPU时自动切换图谱模板演示）</p>
   </header>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -91,6 +91,14 @@
         <h2 class="text-lg font-semibold mb-3" style="color:#A4593B;">📊 实时输出</h2>
         <div id="metrics" class="space-y-2 text-sm">
           <p style="color:#B5A88F;">等待启动...</p>
+        </div>
+      </div>
+
+      <!-- GraphRAG 推理链 -->
+      <div class="metric-card rounded-xl p-5">
+        <h2 class="text-lg font-semibold mb-3" style="color:#8B6F4E;">🧭 GraphRAG 图谱推理链</h2>
+        <div id="graphchain" class="space-y-2 text-sm">
+          <p style="color:#B5A88F;">策略节点执行后，这里展示「弱指标→效果边→禁忌边→来源」的逐步推理…</p>
         </div>
       </div>
     </div>
@@ -187,14 +195,43 @@ function addLog(text, color='#4A3822') {
   m.appendChild(div);
 }
 
+function renderGraph(chain, ranked) {
+  const box = document.getElementById('graphchain');
+  if (!chain || !chain.length) { box.innerHTML = '<p style="color:#B5A88F;">无图推理结果</p>'; return; }
+  const colorOf = (t) => {
+    if (t.includes('诊断')) return '#6E7E88';
+    if (t.includes('匹配')) return '#8B6F4E';
+    if (t.includes('禁忌')) return '#A4593B';
+    if (t.includes('方案') || t.startsWith('辅以')) return '#6F7F4F';
+    return '#4A3822';
+  };
+  let html = '';
+  chain.forEach((line) => {
+    html += `<div style="background:#FBF6EE;border-left:3px solid ${colorOf(line)};padding:6px 10px;border-radius:0 6px 6px 0;line-height:1.55;margin-bottom:5px;">${line}</div>`;
+  });
+  if (ranked && ranked.length) {
+    html += '<div style="margin-top:8px;font-size:12px;color:#9C8B73;">动作效果排序（图谱遍历，红=禁忌排除）：</div>';
+    ranked.forEach(r => {
+      const col = r.excluded ? '#A4593B' : '#6F7F4F';
+      const deco = r.excluded ? 'text-decoration:line-through;opacity:.75;' : '';
+      html += `<div style="font-size:12px;color:${col};${deco}line-height:1.6;">${r.excluded?'✗':'✓'} ${r.action}（效果 ${r.score}）${r.excluded&&r.reason?' · '+r.reason:''}</div>`;
+    });
+  }
+  box.innerHTML = html;
+}
+
+let forceReject = false;
 function runCase(type) {
   if (type === 'vc') {
+    forceReject = false;
     document.getElementById('bmi').value=20; document.getElementById('vc').value=2200;
     document.getElementById('str').value=8; document.getElementById('endurance').value=320;
     document.getElementById('speed').value=10; document.getElementById('jump').value=140;
     document.getElementById('flex').value=3;
     document.getElementById('query').value='这个学生肺活量差，呼吸不好，怎么练？';
   } else {
+    // 首轮刻意模拟通用大模型的泛化草稿，被 Critic 驳回后再用 GraphRAG 重生成
+    forceReject = true;
     document.getElementById('bmi').value=22; document.getElementById('vc').value=4200;
     document.getElementById('str').value=3; document.getElementById('endurance').value=250;
     document.getElementById('speed').value=8.5; document.getElementById('jump').value=180;
@@ -205,6 +242,7 @@ function runCase(type) {
 
 async function runAgent() {
   document.getElementById('metrics').innerHTML = '<p style="color:#B5A88F;">连接后端...</p>';
+  document.getElementById('graphchain').innerHTML = '<p style="color:#B5A88F;">推理中…</p>';
   document.getElementById('final').classList.add('hidden');
   ALL_NODES.forEach(n=>setNode(n,null));
   ALL_EDGES.forEach(e=>setEdge(e,null));
@@ -218,6 +256,7 @@ async function runAgent() {
     jump: +document.getElementById('jump').value,
     flex: +document.getElementById('flex').value,
     query: document.getElementById('query').value,
+    force_reject: forceReject,
   };
 
   try {
@@ -260,6 +299,9 @@ async function runAgent() {
         }
         else if (eventName === 'log') {
           addLog(data.msg, data.color ? LOG_COLORS[data.color] || '#4A3822' : '#4A3822');
+        }
+        else if (eventName === 'graph') {
+          renderGraph(data.chain, data.ranked);
         }
         else if (eventName === 'reject') {
           setEdge('e_cri_wri','reject');
