@@ -25,5 +25,5 @@ flask-cors>=4.0.0
 # Agent framework
 langgraph>=0.1.0
 
-# Text retrieval (TF-IDF) — included in scikit-learn
-# (no additional dependency needed)
+# Text retrieval — TF-IDF (scikit-learn) + jieba 中文分词
+jieba>=0.42.1
