@@ -81,6 +81,26 @@ def route_query(query):
     return ranked[0][0], [c for c, s in ranked if s > 0]
 
 
+# 口语修饰词：检索时归一化（query rewriting）
+_COLLOQUIAL = re.compile(r"薄弱|很差|太差|不行|偏低|太低|比较差|怎么办|怎么练|"
+                         r"怎么提升|怎么训练|如何提升|想提升|怎么提高|如何提高|"
+                         r"怎么$|的$|低$|差$")
+
+
+def rewrite_query(query, weak=None):
+    """把口语查询改写为贴近文档措辞的检索串。
+    如 '力量薄弱怎么练' + weak='力量' → '力量 训练 方法'。
+    """
+    q = _COLLOQUIAL.sub(" ", query)
+    q = re.sub(r"[，。？?！!、]+", " ", q)
+    prefix = weak or ""
+    # 训练类意图补"训练方法"，标准类补"标准"
+    main, _ = route_query(query)
+    tail = "训练 方法" if main in (None, "运动处方") else ("标准" if main == "体测标准" else "")
+    q = re.sub(r"\s+", " ", f"{prefix} {q} {tail}").strip()
+    return q
+
+
 class RoutedRetriever:
     def __init__(self, chunks_dir):
         self.chunks_dir = Path(chunks_dir)
@@ -124,6 +144,8 @@ class RoutedRetriever:
         return [(int(i), float(sims[i])) for i in order if sims[i] > 0.01]
 
     def retrieve(self, query, top_k=3, weak=None):
+        # 路由用原始 query；检索用改写后的 query（口语→文档措辞）
+        search_query = rewrite_query(query, weak)
         # 先尝试弱指标指定分类
         main_cat, candidates = route_query(query)
         if weak and weak in WEAK_CATEGORY:
@@ -151,19 +173,19 @@ class RoutedRetriever:
         if main_cat and main_cat in self.cat_vec:
             items = self.cat_docs[main_cat]
             collect(main_cat, self.cat_vec[main_cat], self.cat_mat[main_cat],
-                    items, query, top_k)
+                    items, search_query, top_k)
 
         # 2) 候选分类补充
         for cat in candidates[1:]:
             if cat in self.cat_vec and len(results) < top_k:
                 items = self.cat_docs[cat]
                 collect(cat, self.cat_vec[cat], self.cat_mat[cat],
-                        items, query, top_k - len(results))
+                        items, search_query, top_k - len(results))
 
         # 3) 全局兜底
         if len(results) < top_k:
             collect(None, self.global_vec, self.global_mat, None,
-                    query, top_k)
+                    search_query, top_k)
 
         return results[:top_k]
 

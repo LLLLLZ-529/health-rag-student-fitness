@@ -128,12 +128,12 @@ def graph_reason(weak_cn: str, bmi: Optional[float] = None,
     if reasons:
         dropped = "、".join(f"{ACTION_CN[a]}（{r}）" for a, r in avoid.items())
         chain.append(f"【禁忌过滤】{'；'.join(reasons)}；排除：{dropped}。")
-        chain.append(f"【方案】首选{ACTION_CN[primary]}，受禁忌限制采用低冲击形式：{forms}。")
+        chain.append(f"【方案】首选「{ACTION_CN[primary]}」，受禁忌限制采用低冲击形式：{forms}。")
     else:
         chain.append("【禁忌过滤】无 BMI/伤病禁忌。")
-        chain.append(f"【方案】首选{ACTION_CN[primary]}：{forms}。")
+        chain.append(f"【方案】首选「{ACTION_CN[primary]}」：{forms}。")
     if secondary:
-        chain.append(f"辅以{ACTION_CN[secondary]}：{ACTION_FORM[secondary][1] if need_low else ACTION_FORM[secondary][0]}。")
+        chain.append(f"辅以「{ACTION_CN[secondary]}」：{ACTION_FORM[secondary][1] if need_low else ACTION_FORM[secondary][0]}。")
     citations = [ACTION_SOURCE[primary]]
     if secondary:
         citations.append(ACTION_SOURCE[secondary])

@@ -223,8 +223,8 @@ class HealthKnowledgeGraph:
         form = meta["low_impact"] if need_low else meta["forms"]
         reasoning.append(ReasoningStep(
             "④ 确定方案与冲击形式",
-            f"首选【{meta['cn']}】，{'受禁忌限制改用低冲击形式：' + form if need_low else '采用：' + form}。"
-            + (f"辅以【{ACTION_META[secondary]['cn']}】。" if secondary else "")))
+            f"首选「{meta['cn']}」，{'受禁忌限制改用低冲击形式：' + form if need_low else '采用：' + form}。"
+            + (f"辅以「{ACTION_META[secondary]['cn']}」。" if secondary else "")))
 
         citations = [meta["source"]]
         if secondary:
@@ -233,8 +233,8 @@ class HealthKnowledgeGraph:
 
         # 最终方案文本
         plan = (
-            f"针对{weak_names}，首选【{meta['cn']}】：{form}；"
-            + (f"辅以【{ACTION_META[secondary]['cn']}】。" if secondary else "")
+            f"针对{weak_names}，首选「{meta['cn']}」：{form}；"
+            + (f"辅以「{ACTION_META[secondary]['cn']}」。" if secondary else "")
             + "遵循循序渐进、运动前热身、出现不适即停的原则。"
         )
 
