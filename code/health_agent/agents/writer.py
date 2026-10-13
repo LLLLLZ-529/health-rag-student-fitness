@@ -37,7 +37,17 @@ def writer_node(state: AgentState) -> dict:
     # 构造 prompt
     d = state.get("student_data", {})
     user_query = state.get("user_query", "")
-    sys_msg = "你是一名专业的大学生体测健康顾问，根据学生数据和用户的问题给出精准、安全、可执行的运动建议。"
+    sys_msg = (
+        "你是一名专业的大学生体测健康顾问，严格基于学生数据、知识库和图谱推理给出"
+        "安全、可执行、个性化的运动建议。必须按【诊断】【分析】【方案】【禁忌】四步"
+        "组织，不可省略：\n"
+        "【诊断】指出最弱指标，结合趋势说明依据。\n"
+        "【分析】解释成因和优先方向，说明为什么排除其他训练类型。\n"
+        "【方案】给出训练类型、频率、单次时长、强度、持续周数，每条建议后用"
+        "[来源: 文件名] 标注依据；知识库无依据的标注[无知识库依据，需人工确认]。\n"
+        "【禁忌】根据 BMI/伤病提示禁忌动作；无明确禁忌时说明出现何种症状应停止。\n"
+        "禁止编造知识库外的药物、剂量、疾病诊断。"
+    )
     user_msg = (
         f"学生体测原始数据：BMI={d.get('bmi','?')}，"
         f"肺活量={d.get('vc','?')}ml，"
@@ -48,14 +58,17 @@ def writer_node(state: AgentState) -> dict:
         f"力量={d.get('str','?')}。"
         f"\n该学生归一化健康指数HI={hi}/100，综合分类={label}。"
         f"用户问题：{user_query}"
-        f"\n推荐干预策略（由RL策略选择）：{strategy}。"
-        f"\n请针对{weak}给出{strategy}的运动建议。"
+        f"\n干预策略（RL策略）：{strategy}。"
     )
+    # 注入 GraphRAG 推理链作为结构化先验
+    chain = state.get("reasoning_chain")
+    if chain:
+        user_msg += "\n\n【GraphRAG 图谱推理结论（请据此组织四步回复）】\n" + "\n".join(chain)
     if docs:
-        user_msg += f"\n参考资料：{docs[0][:200]}"
+        user_msg += "\n\n【知识库检索资料】\n" + "\n".join(docs[:3])
     if revision_count > 0 and errors:
-        user_msg += f"\n注意：上次建议被审核驳回，原因：{'；'.join(errors)}。请修正后重新给出建议。"
-    user_msg += "\n请给出个性化运动建议，不要重复罗列学生数据。"
+        user_msg += f"\n\n注意：上次建议被审核驳回，原因：{'；'.join(errors)}。请修正后重新给出。"
+    user_msg += "\n\n请严格按【诊断】【分析】【方案】【禁忌】四步输出，并标注来源。"
 
     messages = [
         {"role": "system", "content": sys_msg},

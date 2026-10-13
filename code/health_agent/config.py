@@ -28,7 +28,7 @@ CHUNKS_DIR = Path(os.environ.get("CHUNKS_DIR", str(PROJECT_ROOT / "knowledge_bas
 TOP_K_RETRIEVAL = 3
 
 # 训练/推理参数
-MAX_NEW_TOKENS = 256
+MAX_NEW_TOKENS = 512  # 四步推理+引用需要更长输出
 MAX_REVISION_ROUNDS = 2  # Critic 打回最多轮次
 
 # 9 类标签

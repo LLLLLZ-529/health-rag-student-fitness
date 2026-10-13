@@ -28,6 +28,11 @@ class AgentState(TypedDict, total=False):
     # Strategy 输出（M3 PPO 决策）
     strategy: Optional[str]       # 运动/膳食/综合/维持
 
+    # GraphRAG 图推理输出（多约束动作排序 + 推理链 + 引用）
+    graph_reasoning: Optional[Dict[str, Any]]
+    reasoning_chain: Optional[List[str]]
+    graph_citations: Optional[List[str]]
+
     # Writer 输出
     draft_prescription: str
     revision_count: int           # 已重写次数

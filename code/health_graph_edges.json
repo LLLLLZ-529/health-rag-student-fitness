@@ -1,0 +1,290 @@
+{
+  "nodes": {
+    "indicators": {
+      "bmi": "BMI",
+      "vital_capacity": "肺活量",
+      "sprint_50m": "50米跑",
+      "standing_long_jump": "立定跳远",
+      "sit_and_reach": "坐位体前屈",
+      "endurance_run": "耐力跑",
+      "strength": "力量"
+    },
+    "actions": {
+      "endurance_training": "耐力训练",
+      "strength_training": "力量训练",
+      "flexibility_training": "柔韧训练",
+      "power_training": "爆发力训练",
+      "cardio_training": "心肺训练",
+      "bmi_management": "体重管理",
+      "comprehensive_training": "综合训练",
+      "rest_recovery": "休息恢复"
+    }
+  },
+  "effect_edges": [
+    {
+      "action": "endurance_training",
+      "indicator": "BMI",
+      "weight": 0.08
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "肺活量",
+      "weight": 0.12
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "50米跑",
+      "weight": 0.03
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "立定跳远",
+      "weight": 0.05
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "坐位体前屈",
+      "weight": 0.02
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "耐力跑",
+      "weight": 0.15
+    },
+    {
+      "action": "endurance_training",
+      "indicator": "力量",
+      "weight": 0.04
+    },
+    {
+      "action": "strength_training",
+      "indicator": "BMI",
+      "weight": 0.03
+    },
+    {
+      "action": "strength_training",
+      "indicator": "肺活量",
+      "weight": 0.04
+    },
+    {
+      "action": "strength_training",
+      "indicator": "50米跑",
+      "weight": 0.06
+    },
+    {
+      "action": "strength_training",
+      "indicator": "立定跳远",
+      "weight": 0.1
+    },
+    {
+      "action": "strength_training",
+      "indicator": "坐位体前屈",
+      "weight": 0.01
+    },
+    {
+      "action": "strength_training",
+      "indicator": "耐力跑",
+      "weight": 0.02
+    },
+    {
+      "action": "strength_training",
+      "indicator": "力量",
+      "weight": 0.18
+    },
+    {
+      "action": "flexibility_training",
+      "indicator": "BMI",
+      "weight": 0.02
+    },
+    {
+      "action": "flexibility_training",
+      "indicator": "肺活量",
+      "weight": 0.01
+    },
+    {
+      "action": "flexibility_training",
+      "indicator": "立定跳远",
+      "weight": 0.02
+    },
+    {
+      "action": "flexibility_training",
+      "indicator": "坐位体前屈",
+      "weight": 0.18
+    },
+    {
+      "action": "flexibility_training",
+      "indicator": "耐力跑",
+      "weight": 0.01
+    },
+    {
+      "action": "power_training",
+      "indicator": "BMI",
+      "weight": 0.01
+    },
+    {
+      "action": "power_training",
+      "indicator": "肺活量",
+      "weight": 0.03
+    },
+    {
+      "action": "power_training",
+      "indicator": "50米跑",
+      "weight": 0.15
+    },
+    {
+      "action": "power_training",
+      "indicator": "立定跳远",
+      "weight": 0.16
+    },
+    {
+      "action": "power_training",
+      "indicator": "耐力跑",
+      "weight": 0.04
+    },
+    {
+      "action": "power_training",
+      "indicator": "力量",
+      "weight": 0.08
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "BMI",
+      "weight": 0.04
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "肺活量",
+      "weight": 0.18
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "50米跑",
+      "weight": 0.02
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "立定跳远",
+      "weight": 0.03
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "坐位体前屈",
+      "weight": 0.01
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "耐力跑",
+      "weight": 0.1
+    },
+    {
+      "action": "cardio_training",
+      "indicator": "力量",
+      "weight": 0.02
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "BMI",
+      "weight": 0.15
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "肺活量",
+      "weight": 0.05
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "50米跑",
+      "weight": 0.02
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "立定跳远",
+      "weight": 0.03
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "坐位体前屈",
+      "weight": 0.02
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "耐力跑",
+      "weight": 0.08
+    },
+    {
+      "action": "bmi_management",
+      "indicator": "力量",
+      "weight": 0.01
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "BMI",
+      "weight": 0.06
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "肺活量",
+      "weight": 0.08
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "50米跑",
+      "weight": 0.06
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "立定跳远",
+      "weight": 0.07
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "坐位体前屈",
+      "weight": 0.06
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "耐力跑",
+      "weight": 0.08
+    },
+    {
+      "action": "comprehensive_training",
+      "indicator": "力量",
+      "weight": 0.08
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "BMI",
+      "weight": -0.02
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "肺活量",
+      "weight": -0.03
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "50米跑",
+      "weight": -0.02
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "立定跳远",
+      "weight": -0.02
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "坐位体前屈",
+      "weight": -0.02
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "耐力跑",
+      "weight": -0.03
+    },
+    {
+      "action": "rest_recovery",
+      "indicator": "力量",
+      "weight": -0.02
+    }
+  ]
+}

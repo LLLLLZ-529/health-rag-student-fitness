@@ -1,10 +1,17 @@
-"""Strategy Agent: M3 PPO 规则版，根据学生状态选干预方案"""
+"""Strategy Agent: M3 PPO 规则版 + GraphRAG 图推理
+
+1. 根据学生状态选干预大类（运动/膳食/综合/维持）；
+2. 调用 GraphRAG 做细粒度多约束推理：弱指标→效果边选动作→禁忌边过滤→来源边，
+   输出动作排序与自然语言推理链，供 writer 组织可解释的四步回复。
+"""
 from state import AgentState
+from agents.graph_reasoning import graph_reason
 
 ACTIONS = ["运动干预为主", "膳食干预为主", "运动+膳食综合", "维持现状"]
 
+
 def strategy_node(state: AgentState) -> dict:
-    """根据学生数据选干预策略（模拟 PPO 决策）"""
+    """根据学生数据选干预策略，并做 GraphRAG 图推理。"""
     d = state.get("student_data", {})
     trace_entry = {"node": "strategy"}
 
@@ -27,6 +34,21 @@ def strategy_node(state: AgentState) -> dict:
     else:
         action = "维持现状"
 
+    # GraphRAG 图推理：弱指标 + BMI + 用户问题中的禁忌约束
+    weak_cn = state.get("weak_indicator") or "肺活量"
+    user_query = state.get("user_query", "")
+    bmi_val = bmi if isinstance(bmi, (int, float)) else None
+    graph = graph_reason(weak_cn, bmi=bmi_val, query=user_query)
+
     trace_entry["action"] = action
+    trace_entry["graph_primary"] = graph["primary"]
+    trace_entry["graph_excluded"] = [
+        r["action"] for r in graph["ranked"] if r["excluded"]]
     trace = state.get("trace", []) + [trace_entry]
-    return {"strategy": action, "trace": trace}
+    return {
+        "strategy": action,
+        "graph_reasoning": graph,
+        "reasoning_chain": graph["reasoning_chain"],
+        "graph_citations": graph["citations"],
+        "trace": trace,
+    }
