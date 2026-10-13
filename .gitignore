@@ -51,3 +51,7 @@ training.log
 # Build
 build/
 dist/
+
+# 诊断报告（不提交）
+code/compliance_report.json
+*.jsonl
